@@ -9,6 +9,7 @@ info:
     email: "BenDaMyth@gmail.com"
 
 x-service-id: "cart"
+x-organization: "rust"
 
 tags:
   - name: cart
