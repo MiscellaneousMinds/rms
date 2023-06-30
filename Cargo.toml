@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "product-service",
+    "commons"
+]
