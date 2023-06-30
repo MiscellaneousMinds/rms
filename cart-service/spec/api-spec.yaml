@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   version: 1.0.11
   title: "Cart Microservice Cart service API"
-  description: "Manages user cart"
+  description: "Manages user cart."
   contact:
     name: "AdeThorMiwa"
     email: "BenDaMyth@gmail.com"
