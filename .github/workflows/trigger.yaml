@@ -19,10 +19,9 @@ jobs:
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
-            console.log(`${{steps.files.outputs.all }}`)
-            const { basename } = require("path")
-            const { getSpecPaths } = require("./spec-path");
-            const paths = await getSpecPaths();
+            let pathArr = `${{steps.files.outputs.all }}`.split(/\n|\s/);
+            let updatedSpecs = pathArr.filter(path => /api-spec.yam?l$/.test(path));
+            const paths = updatedSpecs.join(",")
 
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
@@ -32,6 +31,6 @@ jobs:
               inputs: {
                 repo: `${context.repo.owner}/${context.repo.repo}`,
                 ref: basename(context.ref),
-                paths: paths.split(/\n/).filter((p) => p.trim().length).join(",")
+                paths
               }
             })
