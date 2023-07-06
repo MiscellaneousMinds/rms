@@ -13,22 +13,25 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: true
+      - id: files
+        uses: jitterbit/get-changed-files@v1
       - uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
-            const { basename } = require("path")
-            const { getSpecPaths } = require("./spec-path");
-            const paths = await getSpecPaths();
-              
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: 'rms-openapi',
-              workflow_id: 'import-spec.yaml',
-              ref: context.ref,
-              inputs: {
-                repo: `${context.repo.owner}/${context.repo.repo}`,
-                ref: basename(context.ref),
-                paths: paths.split(/\n/).filter((p) => p.trim().length).join(",")
-              }
-            })
+            console.log(`${{steps.files.outputs.all }}`)
+            # const { basename } = require("path")
+            # const { getSpecPaths } = require("./spec-path");
+            # const paths = await getSpecPaths();
+
+            # await github.rest.actions.createWorkflowDispatch({
+            #   owner: context.repo.owner,
+            #   repo: 'rms-openapi',
+            #   workflow_id: 'import-spec.yaml',
+            #   ref: context.ref,
+            #   inputs: {
+            #     repo: `${context.repo.owner}/${context.repo.repo}`,
+            #     ref: basename(context.ref),
+            #     paths: paths.split(/\n/).filter((p) => p.trim().length).join(",")
+            #   }
+            # })
