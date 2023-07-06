@@ -20,19 +20,22 @@ jobs:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
             const { basename } = require("path")
-            
+
             let pathArr = `${{steps.files.outputs.all }}`.split(/\n|\s/);
             let updatedSpecs = pathArr.filter(path => /api-spec.yam?l$/.test(path));
-            const paths = updatedSpecs.join(",")
 
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: 'rms-openapi',
-              workflow_id: 'import-spec.yaml',
-              ref: context.ref,
-              inputs: {
-                repo: `${context.repo.owner}/${context.repo.repo}`,
-                ref: basename(context.ref),
-                paths
-              }
-            })
+            if(updatedSpecs.length) {
+              const paths = updatedSpecs.join(",")
+
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: 'rms-openapi',
+                workflow_id: 'import-spec.yaml',
+                ref: context.ref,
+                inputs: {
+                  repo: `${context.repo.owner}/${context.repo.repo}`,
+                  ref: basename(context.ref),
+                  paths
+                }
+              })
+            }
