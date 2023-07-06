@@ -19,6 +19,8 @@ jobs:
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
           script: |
+            const { basename } = require("path")
+            
             let pathArr = `${{steps.files.outputs.all }}`.split(/\n|\s/);
             let updatedSpecs = pathArr.filter(path => /api-spec.yam?l$/.test(path));
             const paths = updatedSpecs.join(",")
