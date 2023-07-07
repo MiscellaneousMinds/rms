@@ -39,8 +39,6 @@ components:
         id:
           type: string
           format: uuid
-        description:
-          type: string
   securitySchemes:
     authToken:
       type: apiKey
